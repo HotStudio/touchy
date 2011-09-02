@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+        <title>Touchy : Wheel</title>
+        <meta name="description" content="An example use of the touchy.js jQuery plugin.  In this example we create a wheel interface that may be manipulated intuitively by a single finger gesture.">
+        <meta name="author" content="Bill Fisher">        
+        
+        <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="HandheldFriendly" content="true" />
+
+        
+        <style type="text/css">
+            * {
+                -webkit-touch-callout: none;
+                -webkit-user-select:none;
+            }
+            body {
+                margin:0;
+                background:#060;
+                color:#fff;
+                font-family:Helvetica;
+            }
+            h1, p {
+                padding:0;
+                margin:0;
+            }
+            /* this wrap is only required to lock the app down and prevent scrolling */
+            #wrap {
+                position:absolute;
+                top:0;
+                left:0;
+                bottom:0;
+                right:0;
+                padding:0;
+                overflow:hidden;
+            }
+            #wheel {
+                position:relative;
+                margin:5% auto 0;
+                width:400px;
+                height:400px;
+                border-radius:200px;
+                background:#333;
+                font-size:400%;
+            }
+            #wheel p {
+                position:absolute;
+                top:160px;
+                left:170px;
+            }
+            .spokes {
+                /* ? */
+            }
+        </style>
+        
+        <script src="../jquery-1.6.2.min.js"></script>
+        <script src="../jquery.touchy.js"></script>
+    </head>
+    <body>
+
+        <div id="wrap">
+            <h1>Wheel : Single Finger Rotation</h1>
+            <div id="wheel"><p>:-)</p></div>
+        </div>
+
+        <script type="text/javascript">
+            
+            $(document).ready(function(){
+                var degs = 0;
+                var handleTouchyRotate = function (e, phase, $target, data) {
+                    if (phase === 'move') {
+                        degs += data.degreeDelta;
+                        //$target.css('webkitTransform','rotate3d(0,0,0,'+ degs +'deg)'); // 3d transforms are not working on the galaxy tab 7" ?
+                        $target.css('webkitTransform','rotate('+ degs +'deg)'); // check this out.  much worse on motorola xoom.
+                    }
+                    
+                }
+                $('#wheel').bind('touchy-rotate', handleTouchyRotate);
+                $('#wheel').data('touchyRotate').settings.requiredTouches = 1;
+            });
+
+        </script>
+        
+    </body>
+</html>
