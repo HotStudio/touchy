@@ -1,0 +1,1 @@
+Touchy is a jQuery plugin for managing touch and gesture events.  It creates new custom events that a programmer may utilize at a high level, such as "pinch" and "flick" among others, and thus avoid the low-level work of combining touch and gesture events to achieve these common gestural controls.
