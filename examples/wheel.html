@@ -19,8 +19,8 @@
             }
             body {
                 margin:0;
-                background:#060;
-                color:#fff;
+                background:#ccc;
+                color:#333;
                 font-family:Helvetica;
             }
             h1, p {
@@ -43,16 +43,15 @@
                 width:400px;
                 height:400px;
                 border-radius:200px;
-                background:#333;
+                background:url(matt_carlson_post-its/spin_blue.gif) 0 0 no-repeat;
+                -webkit-box-shadow: 0px 0px 10px rgba(0,0,0, 0.5);
                 font-size:400%;
+                -webkit-transform:rotate3d(0,0,0,0deg);
             }
             #wheel p {
                 position:absolute;
                 top:160px;
                 left:170px;
-            }
-            .spokes {
-                /* ? */
             }
         </style>
         
@@ -63,7 +62,7 @@
 
         <div id="wrap">
             <h1>Wheel : Single Finger Rotation</h1>
-            <div id="wheel"><p>:-)</p></div>
+            <div id="wheel"></div>
         </div>
 
         <script type="text/javascript">
@@ -73,15 +72,13 @@
                 var handleTouchyRotate = function (e, phase, $target, data) {
                     if (phase === 'move') {
                         degs += data.degreeDelta;
-                        //$target.css('webkitTransform','rotate3d(0,0,0,'+ degs +'deg)'); // 3d transforms are not working on the galaxy tab 7" ?
-                        $target.css('webkitTransform','rotate('+ degs +'deg)'); // check this out.  much worse on motorola xoom.
+                        $target.css('webkitTransform','rotate3d(0,0,0,'+ degs +'deg)'); // 3d transforms are not working on the galaxy tab 7" ?
+                        //$target.css('webkitTransform','rotate('+ degs +'deg) transformZ(0)'); // check this out.  much worse on motorola xoom.
                     }
                     
                 }
                 $('#wheel').bind('touchy-rotate', handleTouchyRotate);
-                $('#wheel').data('touchyRotate').settings.requiredTouches = 1;
             });
-
         </script>
         
     </body>

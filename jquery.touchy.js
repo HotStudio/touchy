@@ -69,7 +69,7 @@
             proxyEvents: ['TouchStart', 'TouchMove', 'GestureChange', 'TouchEnd']
         },
         rotate: { // the user attempts to rotate the element within the x/y plane.  may require one or two fingers.
-            requiredTouches: 2,
+            requiredTouches: 1,
             data: {},
             proxyEvents: ['TouchStart', 'TouchMove', 'GestureChange', 'TouchEnd']
         },
