@@ -19,8 +19,8 @@
             }
             body {
                 margin:0;
-                background:#060;
-                color:#fff;
+                background:#eee;
+                color:#000;
                 font-family:Helvetica;
             }
             h1, p {
@@ -47,27 +47,24 @@
             #slider div {
                 position:absolute;
                 width:100%;
-                height:70%;
-                top:15%;
+                height:100%;
                 font-size:400%
                 
             }
-            #page1 {
-                left:0%;
-                background:blueviolet;
+            #slider div img {
+                width:100%;
             }
-            #page2 {
-                left:100%;
-                background:goldenrod;
-            }
-            #page3 {
-                left:200%;
-                background:gainsboro;
-            }
-            #page4 {
-                left:300%;
-                background:chocolate;
-            }            
+            #page1  {left:0%;}
+            #page2  {left:100%;}
+            #page3  {left:200%;}
+            #page4  {left:300%;}
+            #page5  {left:400%;}
+            #page6  {left:500%;}
+            #page7  {left:600%;}
+            #page8  {left:700%;}
+            #page9  {left:800%;}
+            #page10 {left:900%;}
+            #page11 {left:1000%;}
         </style>
         
         <script src="../jquery-1.6.2.min.js"></script>
@@ -78,10 +75,17 @@
         <div id="wrap">
             <h1>Drag and Flick</h1>
             <div id="slider">
-                <div id="page1">1</div>
-                <div id="page2">2</div>
-                <div id="page3">3</div>
-                <div id="page4">4</div>
+                <div id="page1"><img src="matt_carlson_post-its/01postit_elephant" alt="elephant" /></div>
+                <div id="page2"><img src="matt_carlson_post-its/02postit_pipe" alt="pipe" /></div>
+                <div id="page3"><img src="matt_carlson_post-its/03postit_zappelin" alt="zappelin" /></div>
+                <div id="page4"><img src="matt_carlson_post-its/04postit_flash" alt="flash" /></div>
+                <div id="page5"><img src="matt_carlson_post-its/05postit_timebomb" alt="timebomb" /></div>
+                <div id="page6"><img src="matt_carlson_post-its/06postit_mighty" alt="mighty" /></div>
+                <div id="page7"><img src="matt_carlson_post-its/07postit_zappocloud" alt="zappocloud" /></div>
+                <div id="page8"><img src="matt_carlson_post-its/08postit_flyingcloud" alt="flyingcloud" /></div>
+                <div id="page9"><img src="matt_carlson_post-its/09postit_mouse" alt="mouse" /></div>
+                <div id="page10"><img src="matt_carlson_post-its/10postit_swipe" alt="swipe" /></div>
+                <div id="page11"><img src="matt_carlson_post-its/11postit_spin" alt="spin" /></div>
             </div>
         </div>
 
@@ -92,7 +96,7 @@
                     startPercent = 0,
                     movePercent = 0,
                     preventSlide = false,
-                    $$pages = $('#slider div');
+                    $$pages = $('#slider div img');
                     handleTouchyDrag = function (event, phase, $target, data) {
                         if (!preventSlide) {
                             var bodyWidth = $('body').width(),
