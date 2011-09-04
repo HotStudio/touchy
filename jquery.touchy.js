@@ -1,7 +1,8 @@
-/* touchy.js : a jQuery plugin for managing touch events in Webkit
+/* Touchy : a jQuery plugin for managing touch events in Webkit
+ * 
+ * version: 1.0
  * 
  * requires jQuery 1.4.2+
- *
  */
 
 (function($){
@@ -42,48 +43,48 @@
             msThresh: 800,
             triggerStartPhase: false,
             data: {
-                'startDate': null
+                startDate: null
             },
-            proxyEvents: ['TouchStart', 'TouchEnd']
+            proxyEvents: ["TouchStart", "TouchEnd"]
         },        
         drag: { // the user touches the element and then moves his or her finger across the screen
             requiredTouches: 1,
             msHoldThresh: 100,
             data: {
-                'startPoint': null,
-                'startDate': null,
-                'movePoint': null,
-                'moveDate': null,
-                'held': false
+                startPoint: null,
+                startDate: null,
+                movePoint: null,
+                moveDate: null,
+                held: false
             },
-            proxyEvents: ['TouchStart', 'TouchMove', 'TouchEnd']
+            proxyEvents: ["TouchStart", "TouchMove", "TouchEnd"]
         },
         pinch: { // the user puts two fingers on the element and then either increases or decreases the distance between them.
             pxThresh: 0,
             data: {
-                'startPoint': null,
-                'startDate': null,
-                'movePoint': null,
-                'moveDate': null
+                startPoint: null,
+                startDate: null,
+                movePoint: null,
+                moveDate: null
             },
-            proxyEvents: ['TouchStart', 'TouchMove', 'GestureChange', 'TouchEnd']
+            proxyEvents: ["TouchStart", "TouchMove", "GestureChange", "TouchEnd"]
         },
         rotate: { // the user attempts to rotate the element within the x/y plane.  may require one or two fingers.
             requiredTouches: 1,
             data: {},
-            proxyEvents: ['TouchStart', 'TouchMove', 'GestureChange', 'TouchEnd']
+            proxyEvents: ["TouchStart", "TouchMove", "GestureChange", "TouchEnd"]
         },
         swipe: { // the user touches the screen, then rapidly drags his or her finger(s), then stops touching the screen, all in a "flicking" or "swiping" motion.  may require up to four fingers.
             requiredTouches: 1,
             velocityThresh: 1, 
-            triggerOn: 'touchmove',
+            triggerOn: "touchmove",
             data: {
-                'startPoint': null,
-                'startDate': null,
-                'movePoint': null,
-                'moveDate': null
+                startPoint: null,
+                startDate: null,
+                movePoint: null,
+                moveDate: null
             },
-            proxyEvents: ['TouchStart', 'TouchMove', 'TouchEnd']
+            proxyEvents: ["TouchStart", "TouchMove", "TouchEnd"]
         }
     };
     
@@ -111,10 +112,10 @@
                             updateDragData(data, touches, e.timeStamp);
                             var startPoint = data.startPoint;
                             $target.trigger('touchy-drag', ['start', $target, {
-                                movePoint:     startPoint, 
-                                lastMovePoint: startPoint, 
-                                startPoint:    startPoint, 
-                                velocity:      0
+                                "movePoint":     startPoint, 
+                                "lastMovePoint": startPoint, 
+                                "startPoint":    startPoint, 
+                                "velocity":      0
                             }]);
                         }
                         break;
@@ -133,8 +134,8 @@
                         var points = getTwoTouchPointData(e);
                         if(points){ 
                             data.startPoint = {
-                                x: points.centerX,
-                                y: points.centerY
+                                "x": points.centerX,
+                                "y": points.centerY
                             }                                                
                             data.startDistance = Math.sqrt( Math.pow( (points.x2 - points.x1), 2 ) + Math.pow( (points.y2 - points.y1), 2 ) );
                         }                           
@@ -145,8 +146,8 @@
                         data = $target.data('touchyLongpress');  
                         if (touches.length === data.settings.requiredTouches) {
                             data.startPoint = {
-                                x: touches[0].pageX, 
-                                y: touches[0].pageY
+                                "x": touches[0].pageX, 
+                                "y": touches[0].pageY
                             };
                             data.startDate = e.timeStamp;
                             if (data.settings.triggerStartPhase) {
@@ -168,18 +169,18 @@
                             else {
                                 var points = getTwoTouchPointData(e);
                                 data.startPoint = {
-                                    x: points.centerX, 
-                                    y: points.centerY
+                                    "x": points.centerX, 
+                                    "y": points.centerY
                                 };
                                 data.startDate = e.timeStamp;
                             }
                             var startPoint = data.startPoint;
                             $target.trigger('touchy-rotate', ['start', $target, {
-                                startPoint: startPoint,
-                                movePoint: startPoint,
-                                lastMovePoint: startPoint,
-                                velocity: 0,
-                                degrees: 0
+                                "startPoint": startPoint,
+                                "movePoint": startPoint,
+                                "lastMovePoint": startPoint,
+                                "velocity": 0,
+                                "degrees": 0
                             }]);
                         }
                         break;                        
@@ -212,10 +213,10 @@
                                 velocity = ms === 0 ? 0 : distance / ms;
                             if (data.held) {
                                 $target.trigger('touchy-drag', ['move', $target, {
-                                    movePoint:     movePoint, 
-                                    lastMovePoint: lastMovePoint, 
-                                    startPoint:    data.startPoint, 
-                                    velocity:      velocity
+                                    "movePoint":     movePoint, 
+                                    "lastMovePoint": lastMovePoint, 
+                                    "startPoint":    data.startPoint, 
+                                    "velocity":      velocity
                                 }]);
                             }
                         }
@@ -240,8 +241,8 @@
                         var points = getTwoTouchPointData(e);
                         if(points){ 
                             data.currentPoint = {
-                                x: points.centerX, 
-                                y: points.centerY
+                                "x": points.centerX, 
+                                "y": points.centerY
                             };
                             if (!hasGestureChange()) {
                                 var moveDistance = Math.sqrt( Math.pow( (points.x2 - points.x1), 2 ) + Math.pow( (points.y2 - points.y1), 2 ) ),
@@ -252,11 +253,11 @@
 
                                 if(currentDistance > data.settings.pxThresh){
                                     $target.trigger('touchy-pinch', [$target, {
-                                        scale:         scale, 
-                                        previousScale: previousScale, 
-                                        currentPoint:  data.currentPoint, 
-                                        startPoint:    data.startPoint, 
-                                        startDistance: startDistance
+                                        "scale":         scale, 
+                                        "previousScale": previousScale, 
+                                        "currentPoint":  data.currentPoint, 
+                                        "startPoint":    data.startPoint, 
+                                        "startDistance": startDistance
                                     }]);
                                 }    
                             } 
@@ -285,23 +286,23 @@
                             lastMovePoint = data.lastMovePoint = data.movePoint || data.startPoint;
                             lastMoveDate = data.lastMoveDate = data.moveDate || data.startDate;
                             movePoint = data.movePoint = {
-                                x: touches[0].pageX,
-                                y: touches[0].pageY
+                                "x": touches[0].pageX,
+                                "y": touches[0].pageY
                             };
                             moveDate = data.moveDate = e.timeStamp;
 
                             if (touches.length === 1) {
                                 targetPageCoords = data.targetPageCoords = data.targetPageCoords || getViewOffset(e.target);
                                 centerCoords = data.centerCoords = data.centerCoords || {
-                                    x: targetPageCoords.x + ($target.width() * 0.5),
-                                    y: targetPageCoords.y + ($target.height() * 0.5)
+                                    "x": targetPageCoords.x + ($target.width() * 0.5),
+                                    "y": targetPageCoords.y + ($target.height() * 0.5)
                                 }; 
                             } 
                             else {
                                 var points = getTwoTouchPointData(e);
                                     centerCoords = data.centerCoords = {
-                                        x: points.centerX,
-                                        y: points.centerY
+                                        "x": points.centerX,
+                                        "y": points.centerY
                                     };
                                 if (hasGestureChange()) {
                                     break;
@@ -316,14 +317,14 @@
                             velocity = data.velocity = ms === 0 ? 0 : Math.abs(degreeDelta) / ms; 
                             
                             $target.trigger('touchy-rotate', ['move', $target, {
-                                startPoint: data.startPoint,
-                                startDate: data.startDate,
-                                movePoint: movePoint,
-                                lastMovePoint: lastMovePoint,
-                                centerCoords: centerCoords,
-                                degrees: degrees,
-                                degreeDelta: degreeDelta,
-                                velocity: velocity
+                                "startPoint": data.startPoint,
+                                "startDate": data.startDate,
+                                "movePoint": movePoint,
+                                "lastMovePoint": lastMovePoint,
+                                "centerCoords": centerCoords,
+                                "degrees": degrees,
+                                "degreeDelta": degreeDelta,
+                                "velocity": velocity
                             }]);                            
                         }
                         break;               
@@ -357,11 +358,11 @@
 
                         if(currentDistance > data.settings.pxThresh){
                             $target.trigger('touchy-pinch', [$target, {
-                                scale: scale, 
-                                previousScale: previousScale, 
-                                currentPoint: currentPoint, 
-                                startPoint: startPoint, 
-                                startDistance: startDistance
+                                "scale": scale, 
+                                "previousScale": previousScale, 
+                                "currentPoint": currentPoint, 
+                                "startPoint": startPoint, 
+                                "startDistance": startDistance
                             }]);
                         }                    
                         break;
@@ -375,14 +376,14 @@
                             ms = data.moveDate - data.lastMoveDate,
                             velocity = data.velocity = ms === 0 ? 0 : Math.abs(degreeDelta) / ms;
                         $target.trigger('touchy-rotate', ['move', $target, {
-                            startPoint: data.startPoint,
-                            startDate: data.startDate,
-                            movePoint: data.movePoint,
-                            lastMovePoint: data.lastMovePoint,
-                            centerCoords: data.centerCoords,
-                            degrees: degrees,
-                            degreeDelta: degreeDelta,
-                            velocity: velocity
+                            "startPoint": data.startPoint,
+                            "startDate": data.startDate,
+                            "movePoint": data.movePoint,
+                            "lastMovePoint": data.lastMovePoint,
+                            "centerCoords": data.centerCoords,
+                            "degrees": degrees,
+                            "degreeDelta": degreeDelta,
+                            "velocity": velocity
                         }]);                             
                         break;
                 }                        
@@ -411,20 +412,20 @@
                                 ms = data.moveDate - data.lastMoveDate,
                                 velocity = ms === 0 ? 0 : distance / ms;
                             $target.trigger('touchy-drag', ['end', $target, {
-                                    movePoint:     movePoint, 
-                                    lastMovePoint: lastMovePoint, 
-                                    startPoint:    data.startPoint, 
-                                    velocity:      velocity
-                                }]);
+                                "movePoint":     movePoint, 
+                                "lastMovePoint": lastMovePoint, 
+                                "startPoint":    data.startPoint, 
+                                "velocity":      velocity
+                            }]);
                         }
                         $.extend(data, {
-                            'startPoint': null,
-                            'startDate': null,
-                            'movePoint': null,
-                            'moveDate': null,
-                            'lastMovePoint': null,
-                            'lastMoveDate': null,
-                            'held': false
+                            "startPoint": null,
+                            "startDate": null,
+                            "movePoint": null,
+                            "moveDate": null,
+                            "lastMovePoint": null,
+                            "lastMoveDate": null,
+                            "held": false
                         }); 
                         break;
 
@@ -436,14 +437,14 @@
                             triggerSwipe(data, $target);
                         }                        
                         $.extend(data, {
-                            'startPoint': null,
-                            'startDate': null,
-                            'movePoint': null,
-                            'moveDate': null,
-                            'lastMovePoint': null,
-                            'lastMoveDate': null,
-                            'swiped': false,
-                            'swipeExecuted': false
+                            "startPoint": null,
+                            "startDate": null,
+                            "movePoint": null,
+                            "moveDate": null,
+                            "lastMovePoint": null,
+                            "lastMoveDate": null,
+                            "swiped": false,
+                            "swipeExecuted": false
                         });
                         break;
 
@@ -451,12 +452,12 @@
                     case 'pinch':
                         data = $target.data('touchyPinch');
                         $.extend(data, {
-                            'startPoint': null,
-                            'startDistance': 0,
-                            'currentPoint': null,
-                            'pinched': false,
-                            'scale': 1,
-                            'previousScale': null
+                            "startPoint": null,
+                            "startDistance": 0,
+                            "currentPoint": null,
+                            "pinched": false,
+                            "scale": 1,
+                            "previousScale": null
                         });                    
                         break;
                         
@@ -465,7 +466,7 @@
                         data = $target.data('touchyLongpress');  
                         clearTimeout(data.timer); 
                         $.extend(data, {
-                            'startDate':null
+                            "startDate":null
                         });
                         break; 
                         
@@ -474,32 +475,35 @@
                         data = $target.data('touchyRotate');
                         var degreeDelta = data.lastDegrees ? data.degrees - data.lastDegrees : 0;
                         $target.trigger('touchy-rotate', ['end', $target, {
-                            startPoint: data.startPoint,
-                            startDate: data.startDate,
-                            movePoint: data.movePoint,
-                            lastMovePoint: data.lastMovePoint,
-                            degrees: data.degrees,
-                            degreeDelta: degreeDelta,
-                            velocity: data.velocity
+                            "startPoint": data.startPoint,
+                            "startDate": data.startDate,
+                            "movePoint": data.movePoint,
+                            "lastMovePoint": data.lastMovePoint,
+                            "degrees": data.degrees,
+                            "degreeDelta": degreeDelta,
+                            "velocity": data.velocity
                         }]);                        
                         $.extend(data, {
-                            'startPoint':null,
-                            'startDate':null,
-                            'movePoint':null,
-                            'moveDate':null,
-                            'lastMovePoint':null,
-                            'lastMoveDate':null,
-                            'targetPageCoords':null,
-                            'centerCoords':null,
-                            'degrees':null,
-                            'lastDegrees':null,
-                            'velocity':null
+                            "startPoint":null,
+                            "startDate":null,
+                            "movePoint":null,
+                            "moveDate":null,
+                            "lastMovePoint":null,
+                            "lastMoveDate":null,
+                            "targetPageCoords":null,
+                            "centerCoords":null,
+                            "degrees":null,
+                            "lastDegrees":null,
+                            "velocity":null
                         });
                         break;    
                 }            
             }
-        },
+        }
 
+        /* 
+         * To be implemented
+         *
         handleTouchCancel: function (e) {
             var eventType = this.context,
                 $target = getTarget(e, eventType);
@@ -514,16 +518,17 @@
 
                     //////////////// DRAG ////////////////
                     case 'drag':
-                        alert('drag touchcancel');
+                        console.log('drag touchcancel');
                         break;
 
                     //////////////// SWIPE ////////////////
                     case 'swipe':
-                        alert('swipe touchcancel');
+                        console.log('swipe touchcancel');
                         break;
                 }            
             }        
         }
+        */
     
     },
     
@@ -541,8 +546,8 @@
                 lastMovePoint: data.movePoint && data.movePoint.x ? data.movePoint : data.startPoint,
                 moveDate: moveDate,
                 movePoint: {
-                    x: touches[0].pageX, 
-                    y: touches[0].pageY
+                    "x": touches[0].pageX, 
+                    "y": touches[0].pageY
                 }
             });
         }
@@ -564,8 +569,8 @@
             lastMoveDate = data.moveDate || data.startDate,
             moveDate = timeStamp,
             movePoint = {
-                x: touches[0].pageX,
-                y: touches[0].pageY
+                "x": touches[0].pageX,
+                "y": touches[0].pageY
             },
             hDistance = movePoint.x - startPoint.x, // positive is right
             vDistance = movePoint.y - startPoint.y,  // positive is down
@@ -601,11 +606,11 @@
                 direction = vDistance > 0 ? 'down' : 'up';
             }
             $target.trigger('touchy-swipe', [$target, {
-                direction:     direction, 
-                movePoint:     movePoint, 
-                lastMovePoint: lastMovePoint, 
-                startPoint:    data.startPoint,                                        
-                velocity:      velocity
+                "direction":     direction, 
+                "movePoint":     movePoint, 
+                "lastMovePoint": lastMovePoint, 
+                "startPoint":    data.startPoint,                                        
+                "velocity":      velocity
             }]);
         }        
     },
@@ -616,8 +621,8 @@
     ensureSingularStartData = function (data, touches, timeStamp) {
         if (!data.startPoint) {
             data.startPoint = {
-                x: touches[0].pageX, 
-                y: touches[0].pageY
+                "x": touches[0].pageX, 
+                "y": touches[0].pageY
             }
         }
         if (!data.startDate) {
@@ -656,7 +661,6 @@
                 $delegate = $(boundElems[eventType][i]).has(e.target);
                 if ($delegate.length > 0){                        
                     $target = $delegate;
-
                     break;
                 }
             }
@@ -852,6 +856,10 @@
                 'settings': $.touchyOptions.drag,
                 'held': false
             });
+
+            // extend and restructure the data object
+            $(this).data('touchyDrag').settings = $.extend({}, $.touchyOptions.drag);
+            delete $(this).data('touchyDrag').settings.data;
             
             // If this is the first element to which the event has been bound,
             // bind a handler to document to catch all 'click' events.
