@@ -11,12 +11,6 @@
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="HandheldFriendly" content="true" />
         
-        <!-- this is the icon that you can save to the desktop of the iOS device -->
-        <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
-        
-        <!-- splash screen icon. The file must be exactly 320x460, or else the iPhone ignores it. The iPad requires 1004x768.-->
-        <link rel="apple-touch-startup-image" href="./startup.png" />
-        
         <style type="text/css">
             * {
                 -webkit-touch-callout: none;
@@ -93,69 +87,16 @@
         
         <div id="wrap">
             <h1>Test 2</h1>
-            <div id="test_area" class="test-area">
-                <!--
-                <table>
-                    <tr>
-                        <td>scale</td>
-                        <td>centerPointX</td>
-                        <td>centerPointY</td>
-                        <td>startDistance</td>
-                        <td>startPointX</td>
-                        <td>startPointY</td>
-                    </tr>
-                    <tr id='pinch'>
-                        <td id='scale'></td>
-                        <td id='centerPointX'></td>
-                        <td id='centerPointY'></td>
-                        <td id='startDistance'></td>
-                        <td id='startPointX'></td>
-                        <td id='startPointY'></td>
-                    </tr>
-                </table>
-                -->
-                <!-- drag data test
-                <table>
-                    <tr>
-                        <td>movePoint.x</td>
-                        <td>movePoint.y</td>
-                        <td>lastMovePoint.x</td>
-                        <td>lastMovePoint.y</td>
-                        <td>startPoint.x</td>
-                        <td>startPoint.y</td>
-                    </tr>
-                    <tr id='pinch'>
-                        <td id='movePointX'></td>
-                        <td id='movePointY'></td>
-                        <td id='lastMovePointX'></td>
-                        <td id='lastMovePointY'></td>
-                        <td id='startPointX'></td>
-                        <td id='startPointY'></td>
-                    </tr>
-                </table>
-                -->
-               
-            </div>
+            <div id="test_area" class="test-area"></div>
             <div id="test_area_two" class="test-area"></div>
             <div id="test_area_three" class="test-area"></div>
             <div id="test_target"></div>
-  
         </div>
 
-        <!-- this prevents the application from scrolling.  remove this if you want it to scroll. -->
         <script type="text/javascript">
             (function(){
                 var handleTouchyDrag = function (event, phase, $target, data) {
-                    /*
-                    $('#movePointX').html(movePoint.x);
-                    $('#movePointY').html(movePoint.y);
-                    $('#lastMovePointX').html(lastMovePoint.x);
-                    $('#lastMovePointY').html(lastMovePoint.y);
-                    $('#startPointX').html(startPoint.x);
-                    $('#startPointY').html(startPoint.y);
-                    */
-                    //$target.append(phase + ' ');
-                    
+
                     var movePoint = data.movePoint,
                         startPoint = data.startPoint,
                         velocity = data.velocity;
@@ -182,11 +123,8 @@
                             
                             break;
                     }
-                    //$target.html(velocity);
-
                 }
-                //$('#test_area').bind('touchy-drag', handleTouchyDrag);
-                //$('#test_area_two').bind('touchy-drag', handleTouchyDrag);
+                $('#test_area').bind('touchy-drag', handleTouchyDrag);
 
                 var handleTouchySwipe = function (e, $target, data) {
                     $target.html(data.direction);
@@ -214,11 +152,7 @@
                 }
                 
                 $('#test_area_two').bind('touchy-rotate', handleTouchyRotate);
-                
-                $('#test_area_two').data('touchyRotate').settings.requiredTouches = 1;
-                
-                $('#test_area').bind('touchy-rotate', handleTouchyRotate);
-                
+                                
                 
                 
             })();
