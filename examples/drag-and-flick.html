@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+        <title>Touchy : Drag and Flick</title>
+        <meta name="description" content="An example use of the touchy.js jQuery plugin.  In this example we create sliding page interface.">
+        <meta name="author" content="Bill Fisher">        
+        
+        <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="HandheldFriendly" content="true" />
+
+        
+        <style type="text/css">
+            * {
+                -webkit-touch-callout: none;
+                -webkit-user-select:none;
+            }
+            body {
+                margin:0;
+                background:#eee;
+                color:#000;
+                font-family:Helvetica;
+            }
+            h1, p {
+                padding:0;
+                margin:0;
+            }
+            /* this wrap is only required to lock the app down and prevent scrolling */
+            #wrap {
+                position:absolute;
+                top:0;
+                left:0;
+                bottom:0;
+                right:0;
+                padding:0;
+                overflow:hidden;
+            }
+            #slider {
+                width:100%;
+                height:100%;
+                position:absolute;
+                top:0;
+                left:0;
+            }
+            #slider div {
+                position:absolute;
+                width:100%;
+                height:100%;
+                font-size:400%
+                
+            }
+            #slider div img {
+                width:100%;
+            }
+            #page1  {left:0%;}
+            #page2  {left:100%;}
+            #page3  {left:200%;}
+            #page4  {left:300%;}
+            #page5  {left:400%;}
+            #page6  {left:500%;}
+            #page7  {left:600%;}
+            #page8  {left:700%;}
+            #page9  {left:800%;}
+            #page10 {left:900%;}
+            #page11 {left:1000%;}
+        </style>
+        
+        <script src="../jquery-1.6.2.min.js"></script>
+        <script src="../jquery.touchy.js"></script>
+    </head>
+    <body>
+
+        <div id="wrap">
+            <h1>Drag and Flick</h1>
+            <div id="slider">
+                <div id="page1"><img src="matt_carlson_post-its/01postit_elephant" alt="elephant" /></div>
+                <div id="page2"><img src="matt_carlson_post-its/02postit_pipe" alt="pipe" /></div>
+                <div id="page3"><img src="matt_carlson_post-its/03postit_zappelin" alt="zappelin" /></div>
+                <div id="page4"><img src="matt_carlson_post-its/04postit_flash" alt="flash" /></div>
+                <div id="page5"><img src="matt_carlson_post-its/05postit_timebomb" alt="timebomb" /></div>
+                <div id="page6"><img src="matt_carlson_post-its/06postit_mighty" alt="mighty" /></div>
+                <div id="page7"><img src="matt_carlson_post-its/07postit_zappocloud" alt="zappocloud" /></div>
+                <div id="page8"><img src="matt_carlson_post-its/08postit_flyingcloud" alt="flyingcloud" /></div>
+                <div id="page9"><img src="matt_carlson_post-its/09postit_mouse" alt="mouse" /></div>
+                <div id="page10"><img src="matt_carlson_post-its/10postit_swipe" alt="swipe" /></div>
+                <div id="page11"><img src="matt_carlson_post-its/11postit_spin" alt="spin" /></div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            
+            $(document).ready(function(){
+                var $slider = $('#slider'),
+                    startPercent = 0,
+                    movePercent = 0,
+                    preventSlide = false,
+                    $$pages = $('#slider div img');
+                    handleTouchyDrag = function (event, phase, $target, data) {
+                        if (!preventSlide) {
+                            var bodyWidth = $('body').width(),
+                                xDelta = data.movePoint.x - data.lastMovePoint.x,
+                                newMovePercent = movePercent + (xDelta / bodyWidth);
+                            if (phase === 'move') {
+ 
+                                
+                                if (newMovePercent < 0 && newMovePercent > (1 - $$pages.length)) {
+                                    movePercent = newMovePercent;
+                                    $slider.css({
+                                        'WebkitTransition':'none',
+                                        'WebkitTransform':'translate3d(' + (movePercent * 100) + '%,0,0)'
+                                    });
+                                }
+                            }
+                            else if (phase === 'end' && movePercent !== startPercent) { 
+                                if (data.velocity > 1.7) {
+                                    movePercent = movePercent > startPercent ? startPercent + 1 : startPercent - 1
+                                    slide();
+                                }
+                                else {
+                                    movePercent = Math.round(movePercent);
+                                    slide();
+                                }
+                            }
+                        }
+                    },
+                    slide = function () {
+                        preventSlide = true;
+                        setTimeout(function(){preventSlide = false}, 400);
+                        $slider.css({
+                            'WebkitTransition':'-webkit-transform 0.4s cubic-bezier(1.0, 0.0, 1.0, 1.0)',
+                            'WebkitTransform':'translate3d(' + (movePercent * 100) + '%,0,0)'
+                        });
+                        startPercent = movePercent;
+                    };            
+                $$pages.bind('touchy-drag', handleTouchyDrag);
+            });
+
+        </script>
+        
+    </body>
+</html>
