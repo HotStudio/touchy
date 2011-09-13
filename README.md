@@ -62,7 +62,9 @@ phase: "start" or "end"
 ### touchy-drag
 
 phase: "start", "move" or "end"
+
 data:
+
 * movePoint
 * lastMovePoint
 * startPoint
@@ -74,7 +76,9 @@ Velocity is the distance / time measured in pixels and milliseconds, based on th
 ### touchy-pinch
 
 (No phase.  All events are essentially within the "move" phase.)
+
 data:
+
 * scale
 * previousScale
 * currentPoint
@@ -88,7 +92,9 @@ The startDistance is measured in pixels.
 ### touchy-rotate
 
 phase: "start", "move" and "end"
+
 data:
+
 * startPoint
 * startDate ("move" and "end" phase only)
 * movePoint
@@ -103,7 +109,9 @@ Velocity is the distance / time measured in pixels and milliseconds, based on th
 ### touchy-swipe
 
 (No phase.  Swipe triggers only once.  See configurations.)
+
 data:
+
 * direction: "left", "right", "up", "down"
 * movePoint
 * lastMovePoint
@@ -127,21 +135,26 @@ $('#my_div').data('touchyRotate').settings.requiredTouches = 2;
 As shown in the example, the settings are accessed through the camelCased name of the event.  All events except touchy-pinch require one finger touch by default, but may be configured to require more.
 
 ### touchy-longpress
+
 * requiredTouches: 1
 * msThresh: 800 (the number of milliseconds the user must touch the element before the event is fired)
 * triggerStartPhase: false (whether to trigger the event during the start phase)
 
 ### touchy-drag
+
 * requiredTouches: 1
 * msHoldThresh: 100 (a threshold before engaging drag, to avoid conflict with tapping gestures)
 
 ### touchy-pinch 
+
 * pxThresh: 0 (a pixel-based distance threshold that may be used to prevent the event from firing)
 
 ### touchy-rotate
+
 * requiredTouches: 1
 
 ### touchy-swipe
+
 * requiredTouches: 1
 * velocityThresh: 1 (required velocity to fire the event)
 * triggerOn: "touchmove" (or "touchend".  By default, as soon as the velocity is reached, the event fires.)
