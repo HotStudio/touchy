@@ -4,6 +4,8 @@ Touchy is a jQuery plugin for managing touch and gesture events on WebKit browse
 
 It creates new custom events that a programmer may utilize at a high level, such as "touchy-pinch" and "touchy-rotate" among others, and thus avoid the low-level work of combining touch and gesture events to achieve these common gestural controls.
 
+The minified file size is ~9.52KB (~2.72KB gzipped)
+
 ## Example Usage
 
 First, load Touchy after jQuery.  Touchy requires jQuery 1.4.2+.
