@@ -1,0 +1,30 @@
+{
+    "name": "touchy",
+    "version": "1.0",
+    "title": "Touchy",
+    "author": {
+        "name": "Bill Fisher",
+        "email": "fisherwebdev@gmail.com",
+        "url": "https://github.com/fisherwebdev"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/jquery/jquery-color/raw/2.0.0-beta.1/MIT-LICENSE.txt"
+        }
+    ],
+    "jquery": {
+        "dependencies": {
+            "jquery": ">=1.4.2"
+        }
+    },
+    "description": "Touchy is a highly configurable jQuery plugin for managing touch and gesture events on WebKit browsers. The plugin exposes event data (velocity, etc) for longpress, drag, pinch, rotate, swipe. Example use cases: prevent conflict between drag and swipe; get pinch abstracted across Android and iOS; create a single finger rotation. This plugin was created at Hot Studio.",
+    "demo": "http://hotstudio.github.com/touchy/examples/wheel.html",
+    "keywords": [
+        "events",
+        "touch",
+        "mobile",
+        "tablet"
+    ],
+    "homepage": "https://github.com/hotstudio/touchy"
+}
