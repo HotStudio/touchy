@@ -94,6 +94,7 @@
     var proxyHandlers = {
     
         handleTouchStart: function (e) {
+
             var eventType = this.context,
                 $target = getTarget(e, eventType);
                     
@@ -665,7 +666,7 @@
                 }
             }
         }
-        else if (boundElems[eventType] && boundElems[eventType].is(e.target)) {
+        else if (boundElems[eventType] && boundElems[eventType].index(e.target) != -1) {
             $target = $(e.target)
         }
         return $target;
