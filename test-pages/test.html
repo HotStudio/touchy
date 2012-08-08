@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+        <title>Touchy Test Page</title>
+        <meta name="description" content="This is a test page for touchy, a jQuery plugin for managing touch events">
+        <meta name="author" content="Bill Fisher">        
+        
+        <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="HandheldFriendly" content="true" />
+        
+        <style type="text/css">
+            * {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+            }
+            body {
+                margin:0;
+                
+                /* example - change to suit your needs. */
+                background:#060;
+                color:#fff;
+                font-family:Helvetica;
+            }            
+            #wrap { /* this wrap is only required to lock the app down and prevent scrolling */
+                
+                position:absolute;
+                top:0;
+                left:0;
+                bottom:0;
+                right:0;
+                overflow:hidden;
+                
+                height:2000px;
+            }
+            p {
+                margin:0;
+                padding:0;
+            }
+            .test-area {
+                
+                background:#080;
+                
+                position:absolute;
+                top:100px;
+                left:40px;
+                z-index:5;
+            }
+            #test_area {
+                width:100px;
+                height:100px;
+                top:100px;
+                left:40px;
+                border-radius:50px;
+            }
+            #test_area_two {
+                width:200px;
+                height:200px;
+                top:100px;
+                left:240px;
+                border-radius:100px;
+            }
+            #test_area_three {
+                top:100px;
+                left:500px;
+                width:200px;
+                height:200px;
+                padding:50px;
+                font-size:500%;
+            }
+            #test_target {
+                width:100px;
+                height:100px;
+                border:2px solid blue;
+                position:absolute;
+                top:400px;
+                left:300px;
+            }
+        </style>
+        
+        
+    </head>
+    <body>
+        
+        <div id="wrap">
+            <h1>Test 2</h1>
+            <div id="test_area" class="test-area"></div>
+            <div id="test_area_two" class="test-area"></div>
+            <div id="test_area_three" class="test-area"></div>
+            <div id="test_target"></div>
+        </div>
+        
+        <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
+ 	    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	    <script>window.jQuery || document.write("<script src='../lib/jquery-1.6.2.min.js'>\x3C/script>")</script>
+	    <script src="../jquery.touchy.js"></script>
+        <script type="text/javascript">
+            (function(){
+                var handleTouchyDrag = function (event, phase, $target, data) {
+
+                    var movePoint = data.movePoint,
+                        startPoint = data.startPoint,
+                        velocity = data.velocity;
+
+                    switch (phase) {
+                        case 'start':
+                            $target.css('border','2px solid yellow');
+                            break;
+                        case 'move':
+                            $target.css({'zIndex':'99', 'webkitTransform': 'translate(' + (movePoint.x - startPoint.x) + 'px, ' + (movePoint.y - startPoint.y) + 'px)'});
+                            if ((302 < movePoint.x && movePoint.x < 402) && (402 < movePoint.y && movePoint.y < 502)) {
+                                $('#test_target').css({'border':'4px solid red', 'webkitTransform':'translate(-2px, -2px)'});
+                            }
+                            break;
+                        case 'end':
+                            if ((302 < movePoint.x && movePoint.x < 402) && (402 < movePoint.y && movePoint.y < 502)) {
+                                $target.css({'top':'402px', 'left':'302px', 'webkitTransform':'translate(0,0)', 'border':'0'});
+                                $('#test_target').css({'border':'2px solid blue', 'webkitTransform':'translate(0,0)'});
+                                $target.unbind('touchy-drag', handleTouchyDrag);
+                            } 
+                            else {
+                                $target.css({'zIndex':'5', 'webkitTransform':'translate(0px, 0px)', 'border':'0'});
+                            }
+                            
+                            break;
+                    }
+                }
+                $('#test_area').bind('touchy-drag', handleTouchyDrag);
+
+                var handleTouchySwipe = function (e, $target, data) {
+                    $target.html(data.direction);
+                }   
+                $('#test_area_three').bind('touchy-swipe', handleTouchySwipe);
+                
+                var handleTouchyPinch = function (e, $target, data) {
+                    var scale = data.scale;
+                    $target.css({'webkitTransform':'scale(' + scale + ',' + scale + ')'});
+                }
+                $('#test_area_three').bind('touchy-pinch', handleTouchyPinch);
+                
+                var handleTouchyLongpress = function (e, phase, $target) {
+                    $target.html('long');
+                }
+                $('#test_area_three').bind('touchy-longpress', handleTouchyLongpress);
+                
+                var degs = 0;
+                var handleTouchyRotate = function (e, phase, $target, data) {
+                    if (phase === 'move') {
+                        $target.html(degs);
+                        degs += data.degreeDelta;
+                        $target.css('webkitTransform','rotate('+ degs +'deg)');
+                    }
+                }
+                
+                $('#test_area_two').bind('touchy-rotate', handleTouchyRotate);
+                                
+                
+                
+            })();
+              
+        </script>
+        
+    </body>
+</html>

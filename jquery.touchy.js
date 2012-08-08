@@ -240,9 +240,9 @@
                     case 'pinch':
                         data = $target.data('touchyPinch');
                         var points = getTwoTouchPointData(e);
-                        if(points){ 
+                        if(points){
                             data.currentPoint = {
-                                "x": points.centerX, 
+                                "x": points.centerX,
                                 "y": points.centerY
                             };
                             if (!hasGestureChange()) {
@@ -254,20 +254,20 @@
 
                                 if(currentDistance > data.settings.pxThresh){
                                     $target.trigger('touchy-pinch', [$target, {
-                                        "scale":         scale, 
-                                        "previousScale": previousScale, 
-                                        "currentPoint":  data.currentPoint, 
-                                        "startPoint":    data.startPoint, 
+                                        "scale":         scale,
+                                        "previousScale": previousScale,
+                                        "currentPoint":  data.currentPoint,
+                                        "startPoint":    data.startPoint,
                                         "startDistance": startDistance
                                     }]);
-                                }    
-                            } 
+                                }
+                            }
                         }
                         break;
                         
-                    //////////////// ROTATE ////////////////    
+                    //////////////// ROTATE ////////////////
                     case 'rotate':
-                        data = $target.data('touchyRotate');  
+                        data = $target.data('touchyRotate');
                         if (touches.length === data.settings.requiredTouches) {
                             var lastMovePoint,
                                 lastMoveDate,
@@ -297,8 +297,8 @@
                                 centerCoords = data.centerCoords = data.centerCoords || {
                                     "x": targetPageCoords.x + ($target.width() * 0.5),
                                     "y": targetPageCoords.y + ($target.height() * 0.5)
-                                }; 
-                            } 
+                                };
+                            }
                             else {
                                 var points = getTwoTouchPointData(e);
                                     centerCoords = data.centerCoords = {
@@ -315,7 +315,7 @@
                             degrees = data.degrees = radians * (180 / Math.PI);
                             degreeDelta = lastDegrees ? degrees - lastDegrees : 0;
                             ms = moveDate - lastMoveDate;
-                            velocity = data.velocity = ms === 0 ? 0 : Math.abs(degreeDelta) / ms; 
+                            velocity = data.velocity = ms === 0 ? 0 : degreeDelta / ms;
                             
                             $target.trigger('touchy-rotate', ['move', $target, {
                                 "startPoint": data.startPoint,
@@ -326,9 +326,9 @@
                                 "degrees": degrees,
                                 "degreeDelta": degreeDelta,
                                 "velocity": velocity
-                            }]);                            
+                            }]);
                         }
-                        break;               
+                        break;
 
                 }
             }
@@ -375,7 +375,7 @@
                             degrees = data.degrees = event.rotation,
                             degreeDelta = lastDegrees ? degrees - lastDegrees : 0,
                             ms = data.moveDate - data.lastMoveDate,
-                            velocity = data.velocity = ms === 0 ? 0 : Math.abs(degreeDelta) / ms;
+                            velocity = data.velocity = ms === 0 ? 0 : degreeDelta / ms;
                         $target.trigger('touchy-rotate', ['move', $target, {
                             "startPoint": data.startPoint,
                             "startDate": data.startDate,

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         
-        <title>Touchy : Wheel</title>
+        <title>Touchy : Wheel with Inertia</title>
         <meta name="description" content="An example use of the touchy.js jQuery plugin.  In this example we create a wheel interface that may be manipulated intuitively by a single finger gesture.">
         <meta name="author" content="Bill Fisher">        
         
@@ -57,28 +57,62 @@
     </head>
     <body>
         <div id="wrap">
-            <h1>Wheel : Single Finger Rotation</h1>
+            <h1>Wheel : Single Finger Rotation with Inertia</h1>
             <div id="wheel"></div>
         </div>
         
         <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
- 	    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-	    <script>window.jQuery || document.write("<script src='../lib/jquery-1.6.2.min.js'>\x3C/script>")</script>
+ 	    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	    <script>window.jQuery || document.write("<script src='../lib/jquery-1.7.2.min.js'>\x3C/script>")</script>
 
         <script src="../jquery.touchy.js"></script>
 
         <script type="text/javascript">
             
             $(document).ready(function(){
-                var degs = 0;
+
+                var degs = 0,
+                    velocity = 0,
+                    $target = $('#wheel'),
+                    frameRateMS = 1000/60,
+                    inertiaMotion = false;
+
                 var handleTouchyRotate = function (e, phase, $target, data) {
-                    if (phase === 'move') {
-                        degs += data.degreeDelta;
-                        $target.css('webkitTransform','rotate3d(0,0,0,'+ degs +'deg)'); // 3d transforms are not working on the galaxy tab 7" ?
-                        //$target.css('webkitTransform','rotate('+ degs +'deg) transformZ(0)'); // check this out.  much worse on motorola xoom.
+                    switch (phase) {
+                        case 'start':
+                            inertiaMotion = false;
+                            break;
+                        case 'move':
+                            degs += data.degreeDelta;
+                            $target.css('webkitTransform','rotate3d(0,0,0,'+ degs +'deg)'); 
+                            break;
+                        case 'end':
+                            inertiaMotion = true;
+                            velocity = data.velocity;
+                            releaseRadius = 
+                            spin(velocity);                        
                     }
-                    
-                }
+                };
+
+                var spin = function (velocity) {
+                    // note that touchy returns velocity as degrees per millisecond only for touchy-rotate
+                    degs += velocity * frameRateMS;
+                    degs = degs > 359.99 ? 0 : degs;
+                    rotate(degs);
+                    if (inertiaMotion && Math.abs(velocity) > 0.001) {
+                        setTimeout(function () {
+                            spin(velocity * 0.99);
+                        }, frameRateMS);
+                    }
+                    else {
+                        velocity = 0;
+                    }
+                };
+
+                var rotate = function (degrees) {
+                    $target.css('webkitTransform','rotate3d(0,0,0,'+ degrees +'deg)');
+                };
+
                 $('#wheel').bind('touchy-rotate', handleTouchyRotate);
             });
         </script>
