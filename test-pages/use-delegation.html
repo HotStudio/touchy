@@ -1,0 +1,117 @@
+<!doctype>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Touchy useDelegation Test</title>
+  <meta name="description" content="A test for the Touchy jQeury plugin">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="HandheldFriendly" content="true" />
+  <style>
+    body {
+      background: #ddd;
+      color: #333;
+      font-family: helvetica, arial, sans-serif;
+    }
+      /* this wrap will lock the app down and prevent scrolling *
+      #wrap {
+        position:absolute;
+        top:0;
+        left:0;
+        bottom:0;
+        right:0;
+        padding:0;
+        overflow:hidden;
+      }
+      */
+    #wrap {
+      height:120%;
+    }
+    h1 {
+      height:10%;
+    }
+    #drag_area {
+      min-height:30%;
+    }
+    #easy_toggle {
+      background:#800;
+      color:#fff;
+    }
+    .box {
+      margin-top:5%;
+      padding:1em;
+      box-sizing:border-box;
+      border:1px solid #333;
+      background:#fff;
+    }
+    #drag_area_inner {
+      margin:20%;
+    }
+  </style>
+</head>
+<body>
+<div id="wrap">
+  <h1>Touchy useDelegation Test</h1>
+  <div id="drag_area_outer" class="box">drag in here
+    <div id="drag_area_inner" class="box">and also in here</div>
+  </div>
+  <div id="logger" class="box">event data will appear here</div>
+  <div id="easy_toggle" class="box">useDelegation is off.  Touch to activate.</div>
+</div>
+
+<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>window.jQuery || document.write("<script src='../lib/jquery-1.7.2.min.js'>\x3C/script>")</script>
+
+<script src="../jquery.touchy.js"></script>
+
+<script type="text/javascript">
+
+
+  $(document).ready(function(){
+
+    $.touchyOptions.useDelegation = false;
+
+    setTimeout(function(){
+      window.scrollTo(0, 1);
+    }, 0);
+    var $dragAreaOuter = $("#drag_area_outer"),
+        $logger = $("#logger"),
+        $easyToggle = $("#easy_toggle");
+
+    // define the event handler
+    var handleTouchyDrag = function(event, phase, $target, data){
+      console.log(event, $target.get(0).id, data);
+      $logger.text("current target: " + $target.get(0).id)
+
+    };
+
+    // bind the touchy event to the event handler
+    $dragAreaOuter.on("touchy-drag", handleTouchyDrag);
+
+
+    /////////////// toggle useDelegation //////////////
+    var easyToggle = false;
+    var easyToggleOn = function () {
+      $easyToggle.css("background", "#080").text("useDelegation is on.  Touch to deactivate.");
+      $.touchyOptions.useDelegation = true;
+      return true;
+    };
+    var easyToggleOff = function () {
+      $easyToggle.css("background", "#800").text("useDelegation is off.  Touch to activate.");
+      $.touchyOptions.useDelegation = false;
+      return false;
+    };
+    var toggleEasyToggle = function () {
+      easyToggle = !easyToggle ? easyToggleOn() : easyToggleOff();
+    }
+    $easyToggle.bind("touchstart", toggleEasyToggle);
+
+  });
+
+</script>
+
+</body>
+</html>
