@@ -84,7 +84,7 @@
     // define the event handler
     var handleTouchyDrag = function(event, phase, $target, data){
       console.log(event, $target.get(0).id, data);
-      $logger.text("current target: " + $target.get(0).id)
+      $logger.text("current target: " + $target.get(0).id + ", original target: " + data.originalTarget.id)
 
     };
 
