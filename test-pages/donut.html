@@ -1,0 +1,114 @@
+<!doctype>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Touchy Donut Structure Test</title>
+  <meta name="description" content="A test for the Touchy jQeury plugin">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="HandheldFriendly" content="true" />
+  <style>
+    body {
+      background: #ddd;
+      color: #333;
+      font-family: helvetica, arial, sans-serif;
+    }
+      /* this wrap will lock the app down and prevent scrolling *
+      #wrap {
+        position:absolute;
+        top:0;
+        left:0;
+        bottom:0;
+        right:0;
+        padding:0;
+        overflow:hidden;
+      }
+      */
+    #wrap {
+      height:120%;
+    }
+    h1 {
+      height:10%;
+    }
+    #drag_area {
+      min-height:30%;
+    }
+    #easy_toggle {
+      background:#800;
+      color:#fff;
+    }
+    .box {
+      margin-top:5%;
+      padding:1em;
+      box-sizing:border-box;
+      border:1px solid #333;
+      background:#fff;
+    }
+    #drag_area_inner {
+      margin:20%;
+    }
+  </style>
+</head>
+<body>
+<div id="wrap">
+  <h1>Touchy Donut Structure Test</h1>
+  <p>This test is intended to determine whether we can have different event handlers for nested elements.  Dragging a finger in one of the two boxes should only change the color of that specific box, <strong>not both</strong>.</p>
+  <div id="drag_area_outer" class="box">drag in here
+    <div id="drag_area_inner" class="box">and also in here</div>
+  </div>
+  <div id="logger" class="box">event data will appear here</div>
+</div>
+
+<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>window.jQuery || document.write("<script src='../lib/jquery-1.7.2.min.js'>\x3C/script>")</script>
+
+<script src="../jquery.touchy.js"></script>
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+    //$.touchyOptions.useDelegation = false;
+
+    setTimeout(function(){
+      window.scrollTo(0, 1);
+    }, 0);
+    var $dragAreaOuter = $("#drag_area_outer"),
+        $dragAreaInner = $("#drag_area_inner"),
+        $logger = $("#logger");
+
+    var handleTouchyDragOuter = function(event, phase, $target, data){
+      console.log(event, event.currentTarget.id, $target.get(0).id, data.originalTarget.id, data);
+      $logger.text("currentTarget: " + event.currentTarget.id + " $target: " + $target.get(0).id + ", original target: " + data.originalTarget.id);
+      if (phase == "end"){
+        $(this).css("background", "white");
+      }
+      else {
+        $(this).css("background", "green");
+      }
+    };
+
+    var handleTouchyDragInner = function(event, phase, $target, data){
+      event.stopPropagation(); // prevent this event from bubbling up
+      console.log(event, event.currentTarget.id, $target.get(0).id, data.originalTarget.id, data);
+      $logger.text("currentTarget: " + event.currentTarget.id + " $target: " + $target.get(0).id + ", original target: " + data.originalTarget.id);
+      if (phase == "end"){
+        $(this).css("background", "white");
+      }
+      else {
+        $(this).css("background", "red");
+      }
+    };
+
+    $dragAreaOuter.bind("touchy-drag", handleTouchyDragOuter);
+    $dragAreaInner.bind("touchy-drag", handleTouchyDragInner);
+
+  });
+
+</script>
+
+</body>
+</html>
