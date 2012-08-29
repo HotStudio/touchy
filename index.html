@@ -10,17 +10,13 @@
         <style type="text/css">
             body {
                 font-family:helvetica, arial, sans-serif;
-            }
-            #logo {
-            	position:relative;
-            	width:100%;
+                font-size: 115%;
             }
 			img {
                 position:absolute;
                 top:2%;
-                left:2%;
+                left:30px;
                 max-width:16%;
-                
             }
             header, section, footer {
             	/*
@@ -31,7 +27,7 @@
             }
             header {
             	position:relative;
-            	margin:2% 2% 0px 20%;
+            	margin:2% 2% 0px 22.5%;
         	}
         	h1, h2 {
         		margin:0;
@@ -40,19 +36,16 @@
             	margin-bottom:50px;
             	overflow:hidden;
             }
-            dt, dd {
-            	float:left;
-            }
-            dt {
-            	clear:left;
-            }
             dd {
             	margin:0;
             	padding-left:1em;
 				margin-bottom:8px;
             }
+            p, dd, dt {
+                line-height: 1.4em;
+            }
 			footer, section {
-				margin:50px 30px 0px 20%;
+				margin:30px 30px 0px 30px;
 			}
 			a {
 				color:#b32d2c;
@@ -65,6 +58,30 @@
                  color:#888;
                  font-size:92%;
             }
+            @media screen and (min-width: 735px) {
+                img {
+                    left: 2%;
+                }
+                header {
+                    margin-left:20%;
+                }
+                footer, section {
+                    margin-left: 20%;
+                }
+            }
+            @media screen and (min-width: 735px) {
+                dt, dd {
+                    float:left;
+                }
+                dt {
+                    clear:left;
+                }
+            }
+            @media screen and (min-width: 935px) {
+                header, footer, section {
+                    margin-right: 20%;
+                }
+            }
         </style>
     </head>
     <body>
@@ -74,8 +91,9 @@
 			<p>Welcome!</p>
         </header>
         <section>
+            <p>Touchy is a highly configurable jQuery plugin. It exposes event data (velocity, etc.) for longpress, drag, pinch, rotate and swipe. Example use cases include preventing a conflict between a drag and a swipe, getting pinch abstracted across Android and iOS, or creating a single finger rotation.</p>
             <h2>Demos</h2>
-            <p class="caveat">Please view these pages with a WebKit-based mobile browser.  Alternatively, you may view these pages in Chrome with the  Dev Tools open and an overriden user agent that emulates touch events.</p>
+            <p class="caveat">Please view these pages with a WebKit-based mobile browser.  Alternatively, you may view these pages in Chrome with the  Dev Tools open and emulating touch events.</p>
             <dl>
                 <dt><a href="http://hotstudio.github.com/touchy/examples/drag-and-flick.html">Drag-and-Flick</a></dt>
                 <dd>The user drags or flicks to turn the page.</dd>
@@ -85,6 +103,7 @@
                 <dd>The user rotates a wheel that gradually slows to a stop.</dd>
             </dl>
             <p>More info will appear here soon.  For now, you can find documentation on the GitHub project page for Touchy: <a href="https://github.com/HotStudio/touchy">https://github.com/HotStudio/touchy</a>
+            <p>To get an idea of where Touchy is headed in the future, please take a look at the <a href="https://github.com/HotStudio/touchy/issues/1">issue tracker</a>, and feel free to make a suggestion.</p>
         </section>
         <footer>
 			<p id="main_site">Please check out the main <a href="http://hotstudio.com">Hot Studio</a> site for examples of our work.
