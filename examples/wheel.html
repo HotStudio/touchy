@@ -74,7 +74,7 @@
                 var handleTouchyRotate = function (e, phase, $target, data) {
                     if (phase === 'move') {
                         degs += data.degreeDelta;
-                        $target.css('webkitTransform','rotate3d(0,0,0,'+ degs +'deg)'); // 3d transforms are not working on the galaxy tab 7" ?
+                        $target.css('webkitTransform','rotate3d(0,0,1,'+ degs +'deg)'); // 3d transforms are not working on the galaxy tab 7" ?
                         //$target.css('webkitTransform','rotate('+ degs +'deg) transformZ(0)'); // check this out.  much worse on motorola xoom.
                     }
 
