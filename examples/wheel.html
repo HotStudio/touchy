@@ -2,16 +2,16 @@
 <html>
     <head>
         <meta charset="utf-8">
-        
+
         <title>Touchy : Wheel</title>
         <meta name="description" content="An example use of the touchy.js jQuery plugin.  In this example we create a wheel interface that may be manipulated intuitively by a single finger gesture.">
-        <meta name="author" content="Bill Fisher">        
-        
-        <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+        <meta name="author" content="Bill Fisher">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="HandheldFriendly" content="true" />
 
-        
+
         <style type="text/css">
             * {
                 -webkit-touch-callout: none;
@@ -60,7 +60,7 @@
             <h1>Wheel : Single Finger Rotation</h1>
             <div id="wheel"></div>
         </div>
-        
+
         <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
  	    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 	    <script>window.jQuery || document.write("<script src='../lib/jquery-1.6.2.min.js'>\x3C/script>")</script>
@@ -68,7 +68,7 @@
         <script src="../jquery.touchy.js"></script>
 
         <script type="text/javascript">
-            
+
             $(document).ready(function(){
                 var degs = 0;
                 var handleTouchyRotate = function (e, phase, $target, data) {
@@ -77,7 +77,7 @@
                         $target.css('webkitTransform','rotate3d(0,0,0,'+ degs +'deg)'); // 3d transforms are not working on the galaxy tab 7" ?
                         //$target.css('webkitTransform','rotate('+ degs +'deg) transformZ(0)'); // check this out.  much worse on motorola xoom.
                     }
-                    
+
                 }
                 $('#wheel').bind('touchy-rotate', handleTouchyRotate);
             });
