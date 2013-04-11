@@ -2,16 +2,16 @@
 <html>
     <head>
         <meta charset="utf-8">
-        
+
         <title>Touchy : Drag and Flick</title>
         <meta name="description" content="An example use of the touchy.js jQuery plugin.  In this example we create sliding page interface.">
-        <meta name="author" content="Bill Fisher">        
-        
-        <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+        <meta name="author" content="Bill Fisher">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="HandheldFriendly" content="true" />
 
-        
+
         <style type="text/css">
             * {
                 -webkit-touch-callout: none;
@@ -49,7 +49,7 @@
                 width:100%;
                 height:100%;
                 font-size:400%
-                
+
             }
             #slider div img {
                 width:100%;
@@ -94,7 +94,7 @@
         <script src="../jquery.touchy.js"></script>
 
         <script type="text/javascript">
-            
+
             $(document).ready(function(){
                 var $slider = $('#slider'),
                     startPercent = 0,
@@ -107,8 +107,8 @@
                                 xDelta = data.movePoint.x - data.lastMovePoint.x,
                                 newMovePercent = movePercent + (xDelta / bodyWidth);
                             if (phase === 'move') {
- 
-                                
+
+
                                 if (newMovePercent < 0 && newMovePercent > (1 - $$pages.length)) {
                                     movePercent = newMovePercent;
                                     $slider.css({
@@ -117,7 +117,7 @@
                                     });
                                 }
                             }
-                            else if (phase === 'end' && movePercent !== startPercent) { 
+                            else if (phase === 'end' && movePercent !== startPercent) {
                                 if (data.velocity > 1.7) {
                                     movePercent = movePercent > startPercent ? startPercent + 1 : startPercent - 1
                                     slide();
@@ -137,11 +137,11 @@
                             'WebkitTransform':'translate3d(' + (movePercent * 100) + '%,0,0)'
                         });
                         startPercent = movePercent;
-                    };            
+                    };
                 $$pages.bind('touchy-drag', handleTouchyDrag);
             });
 
         </script>
-        
+
     </body>
 </html>
