@@ -1,10 +1,28 @@
 # Touchy
 
-Touchy is a jQuery plugin for managing touch and gesture events on WebKit browsers, such as Mobile Safari or Android Browser, or any browser that supports the ontouchstart, ontouchmove and ontouchend events.  
+Touchy is a jQuery plugin for managing touch events on W3C-compliant browsers, such as Mobile Safari or Android Browser, or any browser that supports the ontouchstart, ontouchmove and ontouchend events.
 
 It creates new custom events that a programmer may utilize at a high level, such as "touchy-pinch" and "touchy-rotate" among others, and thus avoid the low-level work of combining touch and gesture events to achieve these common gestural controls.
 
-The minified file size is ~9.52KB (~2.72KB gzipped)
+The minified file size is 9.43KB (2.69KB gzipped).
+
+## Log ##
+
+* April 11, 2013
+  * Version 1.1
+  * Added preventDefault options for the three phases: start, move, end.
+  * Condensed the code a bit, shaving 0.05kb off the gzip size.
+  * Fixed the wheel rotation examples, which had some bad CSS syntax in them.
+* August 8, 2012
+  * Rotation velocity may now return negative values
+* August 3, 2012
+  * Fixed backwards compatibility to support jQuery back to version 1.4.2
+* July 11, 2012
+  * Added test pages to the repository
+* September 6, 2011
+  * Touchy released at the San Francisco JavaScript Meetup
+* August 1, 2011
+  * Formal work on Touchy began, drawing upon earlier prototypes.
 
 ## Example Usage
 
@@ -52,7 +70,7 @@ handleTouchyEvent(event, phase, $target, data);
 * event (Object) - a jQuery event object.
 * phase (String) - the phase of the user gesture: "start", "move", "end".
 * $target (Object) - a jQuery object wrapping the event target
-* data (Object) - a JSON object with additional information about the user gesture.  
+* data (Object) - a JSON object with additional information about the user gesture.
 
 However, there are exceptions to this pattern.  Please see below.
 
@@ -147,7 +165,7 @@ As shown in the example, the settings are accessed through the camelCased name o
 * requiredTouches: 1
 * msHoldThresh: 100 (a threshold before engaging drag, to avoid conflict with tapping gestures)
 
-### touchy-pinch 
+### touchy-pinch
 
 * pxThresh: 0 (a pixel-based distance threshold that may be used to prevent the event from firing)
 
