@@ -63,7 +63,7 @@
         movePoint: null,
         moveDate: null
       },
-      proxyEvents: ["TouchStart", "TouchMove", "GestureChange", "TouchEnd"]
+      proxyEvents: ["TouchStart", "TouchMove", "TouchEnd"]
     },
 
     // the user attempts to rotate the element within the x/y plane.  may require one or two fingers.
@@ -75,7 +75,7 @@
       },
       requiredTouches: 1,
       data: {},
-      proxyEvents: ["TouchStart", "TouchMove", "GestureChange", "TouchEnd"]
+      proxyEvents: ["TouchStart", "TouchMove", "TouchEnd"]
     },
 
     // the user touches the screen, then rapidly drags his or her finger(s), then stops touching the screen,
@@ -271,23 +271,21 @@
                       "x": points.centerX,
                       "y": points.centerY
                     };
-                    if (!hasGestureChange()) {
-                      var moveDistance = Math.sqrt( Math.pow( (points.x2 - points.x1), 2 ) + Math.pow( (points.y2 - points.y1), 2 ) ),
-                        previousScale = data.previousScale = data.scale || 1,
-                        startDistance = data.startDistance,
-                        scale = data.scale = moveDistance / startDistance,
-                        currentDistance = scale * startDistance;
+                    var moveDistance = Math.sqrt( Math.pow( (points.x2 - points.x1), 2 ) + Math.pow( (points.y2 - points.y1), 2 ) ),
+                      previousScale = data.previousScale = data.scale || 1,
+                      startDistance = data.startDistance,
+                      scale = data.scale = moveDistance / startDistance,
+                      currentDistance = scale * startDistance;
 
-                      if(currentDistance > settings.pxThresh){
-                        $target.trigger('touchy-pinch', [$target, {
-                          "scale":         scale,
-                          "previousScale": previousScale,
-                          "currentPoint":  data.currentPoint,
-                          "startPoint":    data.startPoint,
-                          "startDistance": startDistance,
-                          "active":        touchyActive
-                        }]);
-                      }
+                    if(currentDistance > settings.pxThresh){
+                      $target.trigger('touchy-pinch', [$target, {
+                        "scale":         scale,
+                        "previousScale": previousScale,
+                        "currentPoint":  data.currentPoint,
+                        "startPoint":    data.startPoint,
+                        "startDistance": startDistance,
+                        "active":        touchyActive
+                      }]);
                     }
                   }
                   break;
@@ -330,10 +328,6 @@
                       "x": points.centerX,
                       "y": points.centerY
                     };
-                    if (hasGestureChange()) {
-                      break;
-                    }
-
                   }
                   radians = Math.atan2(movePoint.y - centerCoords.y, movePoint.x - centerCoords.x);
                   lastDegrees = data.lastDegrees = data.degrees;
@@ -355,66 +349,6 @@
                   }]);
                   break;
               }
-            }
-          }
-        },
-
-        handleGestureChange: function (e) {
-          var eventType = this.context,
-            $target = getTarget(e, eventType);
-
-          if ($target) {
-            var $target = $(e.target),
-              event = e.originalEvent,
-              camelDataName = 'touchy' + eventType.charAt(0).toUpperCase() + eventType.slice(1),
-              data = $target.data(camelDataName);
-
-            if (data.preventDefault.move) {
-              event.preventDefault();
-            }
-
-            switch (eventType) {
-
-              //////////////// PINCH ////////////////
-              case 'pinch':
-                var previousScale = data.previousScale = data.scale || 1,
-                  scale = data.scale = event.scale,
-                  startPoint = data.startPoint,
-                  currentPoint = data.currentPoint || startPoint,
-                  startDistance = data.startDistance,
-                  currentDistance = scale * startDistance;
-
-                if(currentDistance > data.settings.pxThresh){
-                  $target.trigger('touchy-pinch', [$target, {
-                    "scale": scale,
-                    "previousScale": previousScale,
-                    "currentPoint": currentPoint,
-                    "startPoint": startPoint,
-                    "startDistance": startDistance,
-                    "active": touchyActive
-                  }]);
-                }
-                break;
-
-              //////////////// ROTATE ////////////////
-              case 'rotate':
-                var lastDegrees = data.lastDegrees = data.degrees,
-                  degrees = data.degrees = event.rotation,
-                  degreeDelta = lastDegrees ? degrees - lastDegrees : 0,
-                  ms = data.moveDate - data.lastMoveDate,
-                  velocity = data.velocity = ms === 0 ? 0 : degreeDelta / ms;
-                $target.trigger('touchy-rotate', ['move', $target, {
-                  "startPoint": data.startPoint,
-                  "startDate": data.startDate,
-                  "movePoint": data.movePoint,
-                  "lastMovePoint": data.lastMovePoint,
-                  "centerCoords": data.centerCoords,
-                  "degrees": degrees,
-                  "degreeDelta": degreeDelta,
-                  "velocity": velocity,
-                  "active": touchyActive
-                }]);
-                break;
             }
           }
         },
@@ -634,10 +568,6 @@
         if (!data.startDate) {
           data.startDate = timeStamp;
         }
-      },
-
-      hasGestureChange = function () {
-        return (typeof window.ongesturechange == "object");
       },
 
       getTwoTouchPointData = function(e){ // could become multitouch point data for any number of touches?
