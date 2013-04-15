@@ -35,6 +35,10 @@
 
                 height:2000px;
             }
+            h1 {
+              margin: 0;
+              padding: 0;
+            }
             p {
                 margin:0;
                 padding:0;
@@ -70,13 +74,11 @@
                 padding:50px;
                 font-size:500%;
             }
-            #test_target {
+            #drag_target {
                 width:100px;
                 height:100px;
                 border:2px solid blue;
                 position:absolute;
-                top:400px;
-                left:40px;
             }
         </style>
 
@@ -84,43 +86,60 @@
     </head>
     <body>
 
-        <div id="wrap">
-            <h1>Test 2</h1>
-            <div id="test_area" class="test-area"></div>
-            <div id="test_area_two" class="test-area"></div>
-            <div id="test_area_three" class="test-area"></div>
-            <div id="test_target"></div>
-        </div>
+      <div id="wrap">
+          <h1>Touchy Test Page</h1>
+          <p>1. drag small circle to box.  2. rotate large circle.  3. swipe, pinch, longpress large box.</p>
+          <div id="test_area" class="test-area"></div>
+          <div id="test_area_two" class="test-area"></div>
+          <div id="test_area_three" class="test-area"></div>
+          <div id="drag_target"></div>
+      </div>
 
-        <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary
- 	    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-	    <script>window.jQuery || document.write("<script src='../lib/jquery-1.6.2.min.js'>\x3C/script>")</script>
-	      -->
       <script src='../lib/jquery-1.6.2.min.js'></script>
 
 	    <script src="../jquery.touchy.js"></script>
         <script type="text/javascript">
             (function(){
+
+                var dragTargetSize = 100,
+                    dragTargetTop = 400,
+                    dragTargetLeft = 40,
+                    $dragTarget = $("#drag_target")
+
+                $dragTarget.css({
+                  width:  dragTargetSize + "px",
+                  height: dragTargetSize + "px",
+                  top:    dragTargetTop  + "px",
+                  left:   dragTargetLeft + "px"
+                });
+
                 var handleTouchyDrag = function (event, phase, $target, data) {
 
                     var movePoint = data.movePoint,
                         startPoint = data.startPoint,
-                        velocity = data.velocity;
+                        velocity = data.velocity,
+                        dragTargetX = dragTargetLeft + 2,
+                        dragTargetY = dragTargetTop + 2;
 
                     switch (phase) {
                         case 'start':
                             $target.css('border','2px solid yellow');
                             break;
                         case 'move':
-                            $target.css({'zIndex':'99', 'webkitTransform': 'translate(' + (movePoint.x - startPoint.x) + 'px, ' + (movePoint.y - startPoint.y) + 'px)'});
-                            if ((302 < movePoint.x && movePoint.x < 402) && (402 < movePoint.y && movePoint.y < 502)) {
-                                $('#test_target').css({'border':'4px solid red', 'webkitTransform':'translate(-2px, -2px)'});
+                            $target.css({
+                              'zIndex':'99',
+                              'webkitTransform': 'translate(' + (movePoint.x - startPoint.x) + 'px, ' + (movePoint.y - startPoint.y) + 'px)'
+                            });
+                            if ((dragTargetX < movePoint.x && movePoint.x < dragTargetX + dragTargetSize) &&
+                                (dragTargetY < movePoint.y && movePoint.y < dragTargetY + dragTargetSize)) {
+                                $dragTarget.css({'border':'4px solid red', 'webkitTransform':'translate(-2px, -2px)'});
                             }
                             break;
                         case 'end':
-                            if ((302 < movePoint.x && movePoint.x < 402) && (402 < movePoint.y && movePoint.y < 502)) {
-                                $target.css({'top':'402px', 'left':'302px', 'webkitTransform':'translate(0,0)', 'border':'0'});
-                                $('#test_target').css({'border':'2px solid blue', 'webkitTransform':'translate(0,0)'});
+                            if ((dragTargetX < movePoint.x && movePoint.x < dragTargetX + dragTargetSize) &&
+                              (dragTargetY < movePoint.y && movePoint.y < dragTargetY + dragTargetSize)) {
+                                $target.css({'left': dragTargetX + 'px', 'top': dragTargetY + 'px', 'webkitTransform':'translate(0,0)', 'border':'0'});
+                                $dragTarget.css({'border':'2px solid blue', 'webkitTransform':'translate(0,0)'});
                                 $target.unbind('touchy-drag', handleTouchyDrag);
                             }
                             else {
