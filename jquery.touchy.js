@@ -252,6 +252,16 @@
                 if (!data.swipeExecuted && data.swiped && settings.triggerOn === 'touchmove') {
                   data.swipeExecuted = true;
                   triggerSwipe(data, $target);
+                  $.extend(data, {
+                    "startPoint": null,
+                    "startDate": null,
+                    "movePoint": null,
+                    "moveDate": null,
+                    "lastMovePoint": null,
+                    "lastMoveDate": null,
+                    "swiped": false,
+                    "swipeExecuted": false
+                  });
                 }
                 break;
 
