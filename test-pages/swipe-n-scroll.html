@@ -1,0 +1,132 @@
+<!doctype>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Touchy Swipe Test</title>
+    <meta name="description" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="HandheldFriendly" content="true" />
+    <style>
+      body {
+        background: #ddd;
+        color: #333;
+        font-family: helvetica, arial, sans-serif;
+      }
+      /* this wrap will lock the app down and prevent scrolling *
+      #wrap {
+        position:absolute;
+        top:0;
+        left:0;
+        bottom:0;
+        right:0;
+        padding:0;
+        overflow:hidden;
+      }
+      */
+      #wrap {
+        height:120%;
+      }
+      h1 {
+        height:10%;
+      }
+      #swipe_area{
+        min-height:100%;
+      }
+      #easy_swipe {
+        background:#800;
+        color:#fff;
+      }
+      .box {
+        margin-top:5%;
+        padding:1em;
+        box-sizing:border-box;
+        border:1px solid #333;
+        background:#fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrap">
+      <h1>Touchy Swipe and Scroll Test</h1>
+      <p>Scroll down to see the swipe data. On certain Android devices, you will not be able to scroll unless you click the enable scroll button.</p>
+      <button id="enable_scroll">Preventing default. Touch to be able to scroll.</button>
+      <div id="swipe_area" class="box">swipe in here</div>
+      <div id="logger" class="box">event data will appear here</div>
+      <div id="easy_swipe" class="box">Easy-swipe is off.  Touch to activate.</div>
+    </div>
+
+    <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write("<script src='../lib/jquery-1.7.2.min.js'>\x3C/script>")</script>
+
+      <script src="../jquery.touchy.js"></script>
+
+      <script type="text/javascript">
+
+
+          $(document).ready(function(){
+
+            setTimeout(function(){
+              window.scrollTo(0, 1);
+            }, 0);
+            var $swipeArea = $("#swipe_area"),
+                $logger = $("#logger"),
+                $enableScrollButton = $("#enable_scroll"),
+                $easySwipe = $("#easy_swipe");
+
+            // define the event handler
+            var handleTouchySwipe = function(event, $target, data){
+              var logString = [
+                "direction: " + data.direction,
+                "movePoint: " + data.movePoint.x + ", " + data.movePoint.y,
+                "lastMovePoint: " + data.lastMovePoint.x + ", " + data.lastMovePoint.y,
+                "startPoint: " + data.startPoint.x + ", " + data.startPoint.y,
+                "velocity:" + data.velocity
+              ].join(", ");
+              console.log(logString, event, $target, data);
+              $logger.text(logString)
+            };
+
+            // bind the touchy event to the event handler
+            $swipeArea.on("touchy-swipe", handleTouchySwipe);
+
+
+
+            ////////// easy swipe ////////////
+            var easySwipe = false;
+            var easySwipeOn = function () {
+              $easySwipe.css("background", "#080").text("Easy-swipe is on.  Touch to deactivate.");
+              $swipeArea.data("touchySwipe").settings.velocityThresh = 0.3;
+              return true;
+            };
+            var easySwipeOff = function () {
+              $easySwipe.css("background", "#800").text("Easy-swipe is off.  Touch to activate.")
+              $swipeArea.data("touchySwipe").velocityThresh = 1;
+              return false;
+            };
+            var enableScrolling = function () {
+              // Enable scrolling
+              $swipeArea.data('touchySwipe').settings.preventDefault.start = false;
+              $swipeArea.data('touchySwipe').settings.preventDefault.move = false;
+              $swipeArea.data('touchySwipe').settings.preventDefault.end = false;
+            };
+            var toggleEasySwipe = function () {
+              easySwipe = !easySwipe ? easySwipeOn() : easySwipeOff();
+            };
+            $easySwipe.on("touchstart", toggleEasySwipe);
+            $enableScrollButton.on("click", enableScrolling);
+
+            /* toggle() did not work correctly for some reason. works first time, not second, works third, not fourth, etc.
+            $("#easy_swipe").on("touchstart", function () {
+              $(this).toggle(easySwipeOn, easySwipeOff);
+            });
+            */
+          });
+
+      </script>
+
+  </body>
+</html>
