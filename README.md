@@ -54,6 +54,7 @@ Touchy currently enables the use of the following events:
 * touchy-pinch
 * touchy-rotate
 * touchy-swipe
+* touchy-tap
 
 These events are triggered by user interactions with a specific "phase" of the user's gesture passed to the event handler.  A touchy-drag event, for example, will be triggered when the user first touches the bound element, when the user drags his or her finger across the screen, and when the user stops touching the screen.
 
@@ -141,6 +142,10 @@ data:
 Points are JSON objects containing "x" and "y" pixel-based properties, relative to the page.
 Velocity is the distance / time measured in pixels and milliseconds, based on the last two ontouchmove events.
 
+### touchy-tap
+
+(No phase. Tap triggers only once. No data.)
+
 ## Overriding Default Configuration Settings
 
 Touchy configurations are stored within the bound element's jQuery data object.  One may override default configurations by assigning new values to properties within the data object after the element is bound to a touchy event.
@@ -178,6 +183,10 @@ As shown in the example, the settings are accessed through the camelCased name o
 * requiredTouches: 1
 * velocityThresh: 1 (required velocity to fire the event)
 * triggerOn: "touchmove" (or "touchend".  By default, as soon as the velocity is reached, the event fires.)
+
+### touchy-tap
+
+* requiredTouches: 1
 
 ## Using event delegation
 
