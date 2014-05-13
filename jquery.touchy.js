@@ -364,13 +364,12 @@
           $target = getTarget(e, eventType);
 
         if ($target) {
-          var $target = $(e.target),
-            event = e.originalEvent,
+          var event = e.originalEvent,
             touches = event.touches,
             camelDataName = 'touchy' + eventType.charAt(0).toUpperCase() + eventType.slice(1),
             data = $target.data(camelDataName);
 
-          if (data.preventDefault.move) {
+          if (data.settings.preventDefault.move) {
             event.preventDefault();
           }
 
