@@ -77,7 +77,10 @@ However, there are exceptions to this pattern.  Please see below.
 ### touchy-longpress
 
 phase: "start" or "end"
-(No data object)
+
+data:
+
+* startPoint
 
 ### touchy-drag
 

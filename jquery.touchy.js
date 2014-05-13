@@ -48,9 +48,10 @@
       msThresh: 800,
       triggerStartPhase: false,
       data: {
-        startDate: null
+        startDate: null,
+        startPoint: null
       },
-      proxyEvents: ["TouchStart", "TouchEnd"]
+      proxyEvents: ["TouchStart", "TouchEnd", "TouchMove"]
     },
     drag: { // the user touches the element and then moves his or her finger across the screen
       preventDefault: {
@@ -175,10 +176,10 @@
                 };
                 data.startDate = e.timeStamp;
                 if (settings.triggerStartPhase) {
-                  $target.trigger('touchy-longpress', ['start', $target]);
+                  $target.trigger('touchy-longpress', ['start', $target, data]);
                 }
                 data.timer = setTimeout($.proxy(function(){
-                  $target.trigger('touchy-longpress', ['end', $target]);
+                  $target.trigger('touchy-longpress', ['end', $target, data]);
                 }, this), settings.msThresh);
                 break;
 
@@ -292,6 +293,18 @@
                   }
                 }
                 break;
+
+              //////////////// LONG PRESS ////////////////    
+              case 'longpress':
+                var distance = Math.sqrt( Math.pow( (touches[0].pageX - data.startPoint.x), 2 ) + Math.pow( (touches[0].pageY - data.startPoint.y), 2 ) );
+                if (distance > 2) {
+                  // Invalidate the longpress
+                  clearTimeout(data.timer); 
+                  $.extend(data, {
+                    "startDate":null
+                  });
+                }
+                break; 
 
               //////////////// ROTATE ////////////////
               case 'rotate':
