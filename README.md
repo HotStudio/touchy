@@ -162,6 +162,7 @@ As shown in the example, the settings are accessed through the camelCased name o
 * requiredTouches: 1
 * msThresh: 800 (the number of milliseconds the user must touch the element before the event is fired)
 * triggerStartPhase: false (whether to trigger the event during the start phase)
+* moveTolerance: 2 (distance in pixel allowed during the delay, use negative value for infinite distance)
 
 ### touchy-drag
 
