@@ -24,12 +24,6 @@
      data: {},
      proxyEvents: [TouchStart, TouchMove, TouchEnd]
      },
-     tap: { // the user taps briefly on the element as the only interaction.  can interrelate with doubletap.
-     requiredTouches: 1,
-     msThreshTap: 200,
-     data: {},
-     proxyEvents: [TouchStart, TouchEnd]
-     },
      dbltap: { // the user taps twice within a short period of time on the element as the only interaction.
      requiredTouches: 1,
      msThreshTap: 200,
@@ -38,6 +32,17 @@
      proxyEvents: [TouchStart, TouchEnd]
      },
      */
+    tap: { // the user taps briefly on the element as the only interaction.  can interrelate with doubletap.
+      preventDefault: {
+        start: true,
+        move: true,
+        end: true
+      },
+      requiredTouches: 1,
+      msThreshTap: 200,
+      data: {},
+      proxyEvents: ["TouchStart", "TouchMove", "TouchEnd"]
+    },
     longpress: { // the user touches the element and hold his or her finger on the element for a specifed amount of time.
       preventDefault: {
         start: true,
@@ -114,6 +119,8 @@
     }
   };
 
+  // Global variable to know if the current state allows to trigger tap event
+  var tapPossible = false;
 
   // private proxy event handlers
 
@@ -178,6 +185,7 @@
                   $target.trigger('touchy-longpress', ['start', $target]);
                 }
                 data.timer = setTimeout($.proxy(function(){
+                  tapPossible = false;
                   $target.trigger('touchy-longpress', ['end', $target]);
                 }, this), settings.msThresh);
                 break;
@@ -203,6 +211,11 @@
                   "velocity": 0,
                   "degrees": 0
                 }]);
+                break;
+
+              //////////////// TAP ////////////////    
+              case 'tap':
+                tapPossible = true;
                 break;
             }
           }
@@ -353,6 +366,11 @@
                   "degreeDelta": degreeDelta,
                   "velocity": velocity
                 }]);
+                break;
+
+              //////////////// TAP ////////////////    
+              case 'tap':
+                tapPossible = false;
                 break;
             }
           }
@@ -523,6 +541,14 @@
                 "lastDegrees":null,
                 "velocity":null
               });
+              break;
+
+            //////////////// TAP ////////////////
+            case 'tap':
+              if (tapPossible) {
+                tapPossible = false;
+                $target.trigger('touchy-tap', [$target]);
+              }
               break;
           }
         }
