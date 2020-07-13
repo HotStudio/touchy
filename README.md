@@ -45,6 +45,20 @@ var handleTouchyPinch = function (e, $target, data) {
 $('#my_div').bind('touchy-pinch', handleTouchyPinch);
 ```
 
+If you're facing unexpected resizing on first touch, use this method to bind Touchy event :
+
+```javascript
+let initScale = 0;
+var handleTouchyPinch = function (e, $target, data) {
+    if(initScale !== 0)
+      initScale+=data.scale - data.previousScale;
+    else
+      initScale = data.scale;
+    $target.css({'webkitTransform':'scale(' + initScale + ',' + initScale + ')'});
+};
+$('#my_div').bind('touchy-pinch', handleTouchyPinch);
+```
+
 ## Touchy Events
 
 Touchy currently enables the use of the following events:
